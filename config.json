@@ -1,0 +1,25 @@
+{
+  "blocked_websites": [
+    "facebook.com",
+    "instagram.com"
+  ],
+  "blocked_apps": [],
+  "focus_music": {
+    "type": "noisli",
+    "local_path": "focus.mp3"
+  },
+  "website_whitelist": [
+    "wikipedia.org",
+    "khanacademy.org"
+  ],
+  "schedule": {
+    "enabled": false,
+    "start_time": "09:00",
+    "end_time": "17:00"
+  },
+  "locked_mode": false,
+  "daily_time_limit": {
+    "enabled": false,
+    "minutes": 60
+  }
+}

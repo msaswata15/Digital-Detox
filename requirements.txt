@@ -1,0 +1,3 @@
+psutil
+playsound
+colorama
