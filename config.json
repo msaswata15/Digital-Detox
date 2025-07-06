@@ -3,7 +3,9 @@
     "facebook.com",
     "instagram.com"
   ],
-  "blocked_apps": [],
+  "blocked_apps": [
+    "chrome.exe"
+  ],
   "focus_music": {
     "type": "noisli",
     "local_path": "focus.mp3"

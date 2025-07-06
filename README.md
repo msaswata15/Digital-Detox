@@ -23,6 +23,19 @@ A modern, user-friendly app to help you focus by blocking distracting websites a
 
 ## Usage
 1. **Edit `config.json`** to set blocked sites, apps, music, etc.
+   - To block a website, add its domain (e.g., `facebook.com`) to the `blocked_websites` list.
+   - To block an app, add its process name (e.g., `chrome.exe`) to the `blocked_apps` list. You can find the process name in Task Manager under the "Details" tab. The name must match exactly (case-insensitive).
+   - Example:
+     ```json
+     "blocked_websites": [
+       "facebook.com",
+       "instagram.com"
+     ],
+     "blocked_apps": [
+       "chrome.exe",
+       "spotify.exe"
+     ]
+     ```
 2. **Run the GUI:**
    ```
    python detox_gui.py
@@ -35,6 +48,7 @@ A modern, user-friendly app to help you focus by blocking distracting websites a
 - For website blocking, always run as Administrator.
 - To unblock a site, use "End Detox" or remove it from `config.json` and restart the app.
 - For browser insight/limits, a browser extension is required (not included).
+- For app blocking, make sure you enter the exact process name (e.g., `chrome.exe`, `Spotify.exe`). You can find the process name in Task Manager under the "Details" tab. The app block feature only kills processes that match the names in your `blocked_apps` list exactly (case-sensitive on some systems).
 
 ## Screenshots
 ![screenshot](screenshot.png)

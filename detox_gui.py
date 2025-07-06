@@ -54,10 +54,11 @@ def unblock_websites(sites):
 def block_apps(apps):
     killed = []
     for proc in psutil.process_iter(['name']):
-        if proc.info['name'] in apps:
+        proc_name = proc.info['name']
+        if proc_name and any(proc_name.lower() == app.lower() for app in apps):
             try:
                 proc.kill()
-                killed.append(proc.info['name'])
+                killed.append(proc_name)
             except Exception:
                 pass
     return killed
@@ -120,7 +121,6 @@ def detox_session():
     config = load_config()
     ok, msg = block_websites(config['blocked_websites'], set(config.get('website_whitelist', [])))
     window['-STATUS-'].update(msg)
-    killed = block_apps(config['blocked_apps'])
     music_msg = play_focus_music(config)
     session_active = True
     start_time = datetime.datetime.now()
@@ -132,8 +132,12 @@ def detox_session():
     except Exception:
         blocked_now = []
     while session_active and remaining_minutes > 0:
-        window['-STATUS-'].update(f"{msg}\nBlocked: {', '.join(blocked_now)}\nKilled apps: {', '.join(killed) if killed else 'None'}\n{music_msg}\nTime left: {remaining_minutes} min")
-        time.sleep(60)
+        for _ in range(12):
+            if not session_active:
+                break
+            killed = block_apps(config['blocked_apps'])
+            window['-STATUS-'].update(f"{msg}\nBlocked: {', '.join(blocked_now)}\nKilled apps: {', '.join(killed) if killed else 'None'}\n{music_msg}\nTime left: {remaining_minutes} min")
+            time.sleep(5)
         remaining_minutes -= 1
     if session_active:
         window['-STATUS-'].update("Daily time limit reached. Detox ended.")
