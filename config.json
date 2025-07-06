@@ -4,9 +4,7 @@
     "instagram.com"
   ],
   "blocked_apps": [
-    "chrome.exe",
     "brave_tor.exe",
-    "chrome_proxy.exe",
     "openvpn.exe",
     "openvpn-gui.exe",
     "nordvpn.exe",
