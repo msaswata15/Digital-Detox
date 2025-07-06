@@ -72,13 +72,16 @@ def unblock_websites(sites):
         log("Run as administrator to modify hosts file.", Fore.RED)
 
 def block_apps(apps):
+    # Always kill browsers to close open tabs for blocked sites
+    browsers = ["chrome.exe", "brave.exe", "firefox.exe", "msedge.exe", "opera.exe"]
     for proc in psutil.process_iter(['name']):
-        if proc.info['name'] in apps:
+        name = proc.info['name']
+        if name in apps or (name and name.lower() in browsers):
             try:
                 proc.kill()
-                log(f"Killed {proc.info['name']}")
+                log(f"Killed {name}")
             except Exception as e:
-                log(f"Failed to kill {proc.info['name']}: {e}", Fore.RED)
+                log(f"Failed to kill {name}: {e}", Fore.RED)
 
 def play_focus_music(config):
     if config['focus_music']['type'] == 'noisli':

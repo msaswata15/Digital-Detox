@@ -24,7 +24,7 @@ A modern, user-friendly app to help you focus by blocking distracting websites a
 ## Usage
 1. **Edit `config.json`** to set blocked sites, apps, music, etc.
    - To block a website, add its domain (e.g., `facebook.com`) to the `blocked_websites` list.
-   - To block an app, add its process name (e.g., `chrome.exe`) to the `blocked_apps` list. You can find the process name in Task Manager under the "Details" tab. The name must match exactly (case-insensitive).
+   - To block an app, add its process name (e.g., `chrome.exe`, `brave.exe`, `brave_tor.exe`) to the `blocked_apps` list. For Brave's Tor mode, look for process names like `brave.exe` or `brave_tor.exe` in Task Manager under the "Details" tab. The name must match exactly (case-insensitive).
    - Example:
      ```json
      "blocked_websites": [

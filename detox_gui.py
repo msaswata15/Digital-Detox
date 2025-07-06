@@ -119,12 +119,18 @@ import schedule as sched
 def detox_session():
     global session_active, remaining_minutes
     config = load_config()
+    # Kill browsers to close any open tabs for blocked sites
+    browsers = ["chrome.exe", "brave.exe", "firefox.exe", "msedge.exe", "opera.exe"]
+    for proc in psutil.process_iter(['name']):
+        if proc.info['name'] and proc.info['name'].lower() in browsers:
+            try:
+                proc.kill()
+            except Exception:
+                pass
     ok, msg = block_websites(config['blocked_websites'], set(config.get('website_whitelist', [])))
-    window['-STATUS-'].update(msg)
     music_msg = play_focus_music(config)
     session_active = True
     start_time = datetime.datetime.now()
-    # Re-read hosts file to verify block
     try:
         with open(HOSTS_PATH, 'r') as f:
             hosts_content = f.read()
@@ -136,11 +142,13 @@ def detox_session():
             if not session_active:
                 break
             killed = block_apps(config['blocked_apps'])
-            window['-STATUS-'].update(f"{msg}\nBlocked: {', '.join(blocked_now)}\nKilled apps: {', '.join(killed) if killed else 'None'}\n{music_msg}\nTime left: {remaining_minutes} min")
+            # Send status update to main thread
+            status_msg = f"{msg}\nBlocked: {', '.join(blocked_now)}\nKilled apps: {', '.join(killed) if killed else 'None'}\n{music_msg}\nTime left: {remaining_minutes} min"
+            window.write_event_value('-THREAD-STATUS-', status_msg)
             time.sleep(5)
         remaining_minutes -= 1
     if session_active:
-        window['-STATUS-'].update("Daily time limit reached. Detox ended.")
+        window.write_event_value('-THREAD-STATUS-', "Daily time limit reached. Detox ended.")
         end_detox()
 
 def end_detox():
@@ -197,4 +205,6 @@ while True:
         schedule_start = values['-START-']
         schedule_end = values['-END-']
         schedule_detox()
+    elif event == '-THREAD-STATUS-':
+        window['-STATUS-'].update(values['-THREAD-STATUS-'])
 window.close()
