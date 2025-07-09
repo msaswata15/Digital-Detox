@@ -1,6 +1,6 @@
 # Digital Detox App
 
-A modern, user-friendly app to help you focus by blocking distracting websites and apps, with a beautiful cross-platform GUI.
+A modern,user-friendly app to help you focus by blocking distracting websites and apps, with a beautiful cross-platform GUI.
 
 ## Features
 - **Block Websites:** Modifies Windows hosts file to block distracting sites.
